@@ -7,3 +7,4 @@
 /.env
 /src/tests/resources/*.key*
 package.json.bak
+/*/
