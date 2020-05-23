@@ -1,0 +1,55 @@
+version: '3'
+services:
+  nat-server:
+    image: nats:latest
+    ports:
+      - '4222:4222'
+      - '8222:8222'
+      - '6222:6222'
+
+  nat-server-streaming:
+    image: nats-streaming:latest
+    depends_on:
+      - nat-server
+    ports:
+      - '4223:4223'
+      - '8223:8223'
+    command:
+      - '-ns=nats://nat-server:4222'
+      - '-m=8223'
+
+  prometheus-nats-exporter:
+    image: synadia/prometheus-nats-exporter:latest
+    depends_on:
+      - nat-server
+    command: http://nat-server:8222
+    ports:
+      - '7777:7777'
+
+  prometheus-nats-exporter-streaming:
+    image: synadia/prometheus-nats-exporter:latest
+    depends_on:
+      - nat-server-streaming
+    command: ['-channelz', '-serverz', 'http://nat-server-streaming:8223']
+    ports:
+      - '7778:7777'
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml/:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    depends_on:
+      - prometheus-nats-exporter
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus

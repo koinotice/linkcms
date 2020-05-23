@@ -1,0 +1,90 @@
+version: '3.6'
+x-default-options: &default-options
+  tty: true
+  logging:
+    options:
+      max-size: '10m'
+      max-file: '3'
+services: 
+
+  postgres:
+    container_name: lcms_postgres
+    
+    image: postgres:latest  
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '5434:5432'
+    expose:
+      # Opens port 3306 on the container
+      - '5434'
+    volumes:
+      # Where initialization schema and data sql
+      - ./docker/initdb:/docker-entrypoint-initdb.d/
+      - ./data:/var/lib/postgresql/data 
+
+  graphql-engine:
+    image: hasura/graphql-engine:latest
+    container_name: "lcms_graphql"
+
+    ports:
+      - "${GRAPHQL_PORT}:8080"
+    depends_on:
+      - "postgres"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+      HASURA_GRAPHQL_ACCESS_KEY: Zheli123
+    command:
+      - graphql-engine
+      - serve
+      - --enable-console 
+  grafana:
+    build: ./docker/grafana
+    container_name: link_grafana
+    ports:
+      - "3000:3000"
+    links:
+      - postgres
+     
+    environment:
+      GF_USERS_DEFAULT_THEME: "light" 
+      GF_LOG_LEVEL: error
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+    volumes:
+      - ./docker/grafana:/etc/grafana
+      
+     
+  
+  
+  # webot:
+  #   build:
+  #     # This defines the build context for the image build — in this case, the current project directory.
+  #     context: ./webot
+  #     # This specifies the Dockerfile in your current project directory as the file
+  #     dockerfile: Dockerfile
+  #   image: webot
+  #   container_name: webot
+  #   # This defines the restart policy. The default is no,
+  #   # but we have set the container to restart unless it is stopped.
+  #   restart: unless-stopped
+  #   env_file: .env
+   
+
+  # dron:
+  #   build:
+  #     context: ./dronex
+  #     dockerfile: Dockerfile
+  #   image: dron
+  #   container_name: link_dron
+  #   env_file: .env
+  #   volumes:
+  #     # Delegated option for faster mounted volumes
+  #     - ./dronex:/src:delegated
+      

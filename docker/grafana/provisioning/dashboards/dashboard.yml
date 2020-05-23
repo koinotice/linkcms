@@ -1,0 +1,15 @@
+apiVersion: 1
+
+providers:
+  - name: 'Wedex Ftx Balanace Watch'
+    # <int> org id. will default to orgId 1 if not specified
+    orgId: 1
+    # <string, required> name of the dashboard folder. Required
+    folder: ''
+    # <string, required> provider type. Required
+    type: file
+    # <bool> enable dashboard editing
+    editable: true
+    options:
+      # <string, required> path to dashboard files on disk. Required
+      path: /etc/grafana/provisioning/dashboards

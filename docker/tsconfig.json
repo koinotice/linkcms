@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "strict": true,
+    "lib": ["ESNext"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "exclude": ["**/dist/**/*"]
+}

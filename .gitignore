@@ -1,0 +1,9 @@
+/node_modules
+/build
+.vscode/
+.ds_store
+/.nyc_output
+/coverage
+/.env
+/src/tests/resources/*.key*
+package.json.bak

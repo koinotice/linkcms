@@ -1,0 +1,34 @@
+{
+  "name": "@i62navpm/nats-services",
+  "version": "0.0.0",
+  "description": "Nats services project",
+  "keywords": [
+    "nats",
+    "node",
+    "nats-messaging"
+  ],
+  "author": "Manuel Navarro Pérez",
+  "homepage": "https://github.com/i62navpm/node-nats/tree/master/packages/nats-services#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i62navpm/node-nats.git"
+  },
+  "bugs": {
+    "url": "https://github.com/i62navpm/node-nats/issues"
+  },
+  "scripts": {
+    "dev": "rollup -cw",
+    "build": "rollup -c"
+  },
+  "dependencies": {
+    "ts-nats": "^1.2.4"
+  },
+  "devDependencies": {
+    "rollup": "^2.0.6",
+    "rollup-plugin-typescript2": "^0.26.0",
+    "typescript": "^3.7.5"
+  }
+}

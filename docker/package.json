@@ -1,0 +1,53 @@
+{
+  "name": "node-nats",
+  "description": "Node nats project",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "lerna run --parallel --scope @i62navpm/* dev",
+    "build": "lerna run --scope @i62navpm/* build",
+    "lint": "eslint . --cache --fix --quiet --ext js,ts",
+    "test": "jest",
+    "test:coverage": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "prepublish": "yarn build",
+    "lerna:version": "lerna version",
+    "lerna:publish": "lerna publish from-git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i62navpm/node-nats.git"
+  },
+  "keywords": [
+    "nats",
+    "node",
+    "streaming",
+    "services"
+  ],
+  "author": "Manuel Navarro Pérez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/i62navpm/node-nats/issues"
+  },
+  "homepage": "https://github.com/i62navpm/node-nats#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/config-lerna-scopes": "^8.3.4",
+    "@types/jest": "^25.1.1",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.1",
+    "jest": "^25.1.0",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5"
+  }
+}

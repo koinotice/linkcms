@@ -1,0 +1,10 @@
+{
+  "admin": "admin@163.com",
+  "adminPassword": "admin",
+  "appLogLevel": "info",
+  "webLogLevel": "warn",
+  "seedDataPath": "/etc/sqlpad/seed-data",
+  "connections": {
+
+  }
+}

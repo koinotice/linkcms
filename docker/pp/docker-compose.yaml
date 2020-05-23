@@ -1,0 +1,126 @@
+version: '3'
+services:
+  caddy:
+    image: "abiosoft/caddy:latest"
+    volumes:
+      - ./docker/.caddy:/root/.caddy # to sync mkcert certificates to Caddy
+      - ./docker/Caddyfile:/etc/Caddyfile  # to mount custom Caddyfile
+    ports:
+      - "443:2015"
+
+  redis:
+    container_name: ${CONTAINER}_redis
+    image: redis
+    ports:
+      - 6379:6379
+    restart: always
+    logging: &logging_default
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "200m"
+        compress: "true"
+  nats:
+    image: nats-streaming:latest
+    restart: always
+    container_name: ${CONTAINER}_nats
+   # command: -m 8222 --store SQL --sql_driver postgres --sql_source "postgres://pmker:Zheli123@postgres/pmker?sslmode=disable"
+    #command: -m 8222 --store SQL --sql_driver postgres --sql_source "postgres://pmker:Zheli123@postgres/pmker?sslmode=disable"
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  postgres:
+    build: "./postgres"
+    container_name: ${CONTAINER}_postgres
+    restart: "always"
+    ports:
+      - 7043:5432
+    environment:
+      POSTGRES_DB: "pmker"
+      POSTGRES_USER: "pmker"
+      POSTGRES_PASSWORD: "Zheli123"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+
+
+
+  vgate:
+    build: .
+    container_name:  ${CONTAINER}_vgate1
+    command: /bin/vgate
+    restart: always
+    environment:
+      HOME: "/"
+    depends_on:
+      - postgres
+      - nats
+    volumes:
+      - "./config/${NETWORK}:/vgate/config"
+ #    logging:
+#        <<: *logging_default
+####
+#  deposit:
+#    build: .
+#    container_name:  deposit
+#    command: /bin/deposit
+#    environment:
+#      HOME: "/"
+#    restart: always
+#    volumes:
+#      - "./configs/${NETWORK}:/vgate/config"
+#    depends_on:
+#      - postgres
+#      - redis
+#      - nats
+##    logging:
+##      <<: *logging_default
+####
+#  withdraw:
+#    build: .
+#    container_name:  withdraw
+#    command: /bin/withdraw
+#    restart: always
+#    environment:
+#      HOME: "/"
+#    volumes:
+#      - "./configs/${NETWORK}:/vgate/config"
+#    depends_on:
+#      - postgres
+#      - redis
+#      - nats
+#    logging:
+#      <<: *logging_default
+###
+#  balance:
+#    build: .
+#    container_name: balance
+#    command: /bin/balance
+#    restart: always
+#    environment:
+#      HOME: "/"
+#    volumes:
+#      - "./configs/${NETWORK}:/vgate/config"
+#    depends_on:
+#      - postgres
+#      - redis
+#      - nats
+#    logging:
+#      <<: *logging_default
+
+
+#
+#  vgate:
+#    image: vgate:latest
+#    container_name:  ${CONTAINER}_vgate
+#    command: ./bin/vgate init
+#    restart: always
+#    environment:
+#      HOME: "/"
+#    depends_on:
+#      - postgres
+#      - nats
+#    volumes:
+#
+#      - "./config/${NETWORK}:/vgate/config"

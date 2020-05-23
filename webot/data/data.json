@@ -1,0 +1,74 @@
+{
+  "tokens": [
+    {
+      "type": "ETH",
+      "tokenId": 0,
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "address": "0x0000000000000000000000000000000000000000",
+      "unit": "",
+      "decimals": 18,
+      "precision": 6,
+      "minOrderAmount": "10000000000000000",
+      "maxOrderAmount": "20000000000000000000000",
+      "dustOrderAmount": "1000000000000000",
+      "enabled": true
+    },
+    {
+      "type": "ERC20",
+      "tokenId": 1,
+      "symbol": "WETH",
+      "name": "Wrapped Ether",
+      "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "unit": "",
+      "decimals": 18,
+      "precision": 6,
+      "minOrderAmount": "50000000000000000",
+      "maxOrderAmount": "50000000000000000000",
+      "dustOrderAmount": "500000000000000",
+      "enabled": true
+    },
+    {
+      "type": "ERC20",
+      "tokenId": 2,
+      "symbol": "LRC",
+      "name": "Loopring",
+      "address": "0xbbbbca6a901c926f240b89eacb641d8aec7aeafd",
+      "unit": "",
+      "decimals": 18,
+      "precision": 8,
+      "minOrderAmount": "100000000000000000000",
+      "maxOrderAmount": "10000000000000000000000000",
+      "dustOrderAmount": "10000000000000000000",
+      "enabled": true
+    },
+    {
+      "type": "ERC20",
+      "tokenId": 3,
+      "symbol": "USDT",
+      "name": "Tether USD",
+      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "unit": "",
+      "decimals": 6,
+      "precision": 6,
+      "minOrderAmount": "2000000",
+      "maxOrderAmount": "1000000000000",
+      "dustOrderAmount": "100000",
+      "enabled": true
+    },
+    {
+      "type": "ERC20",
+      "tokenId": 4,
+      "symbol": "DKEY",
+      "name": "Dkey",
+      "address": "0xe498c0d37e1cab443d7f8bd74bd820bb9d5b6bd6",
+      "unit": "",
+      "decimals": 18,
+      "precision": 6,
+      "minOrderAmount": "10000000000000000000",
+      "maxOrderAmount": "1000000000000000000000000",
+      "dustOrderAmount": "1000000000000000000",
+      "enabled": true
+    }
+  ]
+}

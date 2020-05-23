@@ -1,0 +1,27 @@
+version: '3.4'
+
+x-base:
+  &base
+  image: node:12
+  volumes:
+    - nodemodules:/app/node_modules
+    - .:/app/
+  working_dir: /app/
+
+services:
+  install:
+    << : *base
+    command: yarn
+
+  dev:
+    << : *base
+    env_file: ../.env
+    command: yarn dev
+
+  # create-bundles:
+  #   << : *base
+  #   command: npm run create-bundles
+
+volumes:
+  nodemodules:
+    external: true
