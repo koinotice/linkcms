@@ -86,9 +86,8 @@ class Bot {
         const data = this.ads.getAddress()
 
         const that=this;
-        console.log("---------")
-        console.log(data)
-        if(data==undefined){
+         
+        if(data=="undefined"){
             setTimeout(async ()=>{
                 await that.start()},3000)
 
@@ -104,7 +103,7 @@ class Bot {
 
         //console.log(1)
         const data = await this.ads.getAddress() 
-        console.log(data)
+        
         // for (const [i, account] of data.data.address.entries()) {
             
         //     await this.getBalance(account)
