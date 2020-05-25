@@ -68,18 +68,22 @@ def update_balance(data,accountId):
         #print(balance)
         if balance['coin_id']==1:
             bb["usdt"]=float(balance["volume"])
+            bb["usdtblock"]=float(balance["frozen"])
+
           
         if balance['coin_id']==103:
             bb["eth"]=float(balance["volume"])
+            bb["ethblock"]=float(balance["frozen"])
+
             
 
         if balance['coin_id']==327:
             bb["bull"]=float(balance["volume"])
-            #bb["bearblock"]=balance["frozen"]
+            bb["bearblock"]=float(balance["frozen"])
         
         if balance['coin_id']==328:
             bb["bear"]=float(balance["volume"])
-           # bb["bullblock"]=balance["frozen"]
+            bb["bullblock"]=float(balance["frozen"])
 
     assert1={"id":accountId}
     assert1.update(bb)
