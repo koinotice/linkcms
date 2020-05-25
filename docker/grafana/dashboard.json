@@ -67,7 +67,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \nsum(bear)  -sum(bull) \n \nfrom assets group by accountid\n",
+          "rawSql": "SELECT \nsum(bear)  -sum(bull) \n \nfrom \n",
           "refId": "A",
           "select": [
             [
