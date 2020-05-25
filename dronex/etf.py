@@ -11,11 +11,8 @@ from pathlib import Path  # python3 only
 
 env_path = Path('..') / '.env'
 load_dotenv(dotenv_path=env_path)
-print(os.getenv("GRAPHQL_URL"))
-
-print(os.getenv("GRAPHQL_ADMIN_PASSWORD"))
-
-url = os.getenv("DK_GRAPHQL_URL")
+ 
+url = os.getenv("GRAPHQL_URL")
 headers = {'x-hasura-admin-secret': os.getenv("GRAPHQL_ADMIN_PASSWORD")}
  
 query = '''query getAddress {
@@ -59,8 +56,8 @@ HOST = 'https://openapi.dragonex.im'
 def update_balance(data,accountId):
     bb={
             "accountId":accountId,
-            "bull":"",
-            "bear":"",
+            "bull":0,
+            "bear":0,
             "usdt":0,
             "eth":0,
             "bullblock":0,
@@ -70,23 +67,26 @@ def update_balance(data,accountId):
     for index, balance in enumerate(data):
         #print(balance)
         if balance['coin_id']==1:
-            bb["usdt"]=balance["volume"]
-            bb["usdtblock"]=balance["frozen"]
+            bb["usdt"]=float(balance["volume"])
+          
+        if balance['coin_id']==103:
+            bb["eth"]=float(balance["volume"])
+            
 
-        if balance['coin_id']==325:
-            bb["bear"]=balance["volume"]
-            bb["bearblock"]=balance["frozen"]
+        if balance['coin_id']==327:
+            bb["bull"]=float(balance["volume"])
+            #bb["bearblock"]=balance["frozen"]
         
-        if balance['coin_id']==325:
-            bb["bull"]=balance["volume"]
-            bb["bullblock"]=balance["frozen"]
+        if balance['coin_id']==328:
+            bb["bear"]=float(balance["volume"])
+           # bb["bullblock"]=balance["frozen"]
 
     assert1={"id":accountId}
     assert1.update(bb)
     variables = {}
     variables['assets']=assert1
     variables['object']=bb
-    print(variables)
+    print(bb)
           
 
     updateBalance = endpoint(insertbalance, variables)
@@ -113,13 +113,13 @@ def get_a_random_number_between(a, b, precise=tickSize):
         result = max(a, b) - precise
     return result
 
-
+#{'coin_id': 327, 'code': '3bbull'}, {'coin_id': 328, 'code': '3bbear'}
 while (True):
     timeSpace = get_a_random_number_between(5, 10, precise=1e-8)
     #print("timeSpace: ", timeSpace)
     timeSpace = round(timeSpace, 1)
-   # time.sleep(timeSpace)
-    print("timeSpace: ", timeSpace)
+    time.sleep(timeSpace)
+    #print("timeSpace: ", timeSpace)
 
     addresss=Address['data']['address']
     for index, account in enumerate(addresss):
@@ -127,7 +127,9 @@ while (True):
     
         dragonex = DragonExV1(access_key=account['access_key'], secret_key=account['secret_key'], host=HOST)
         #dragonex.ensure_token_enable(False)
+
+        
         r = dragonex.get_user_own_coins()
 
-        print(r.data)
-        #update_balance(r.data, account["account_id"])
+        #print(r.data)
+        update_balance(r.data, account["account_id"])

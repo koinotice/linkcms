@@ -15,7 +15,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
   "links": [],
   "panels": [
     {
@@ -67,7 +66,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \nsum(bear)  -sum(bull) \n \nfrom assets group by accountid\n",
+          "rawSql": "SELECT \nsum(bear)  -sum(bull) \n \nfrom assets  \n",
           "refId": "A",
           "select": [
             [
