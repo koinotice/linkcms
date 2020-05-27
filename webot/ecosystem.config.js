@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    name: 'wedex-balance',
+    name: 'weetf',
     script: 'build/app.js',
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
