@@ -41,7 +41,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 7,
+        "w": 3,
         "x": 0,
         "y": 0
       },
@@ -117,8 +117,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 8,
-        "x": 7,
+        "w": 6,
+        "x": 3,
         "y": 0
       },
       "id": 4,
@@ -141,7 +141,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \nsum(bull) as bulls,\nsum(bear) as bears,\nsum(usdt) as usdts,\nsum(eth) as eths\n\nfrom assets group by accountid\n",
+          "rawSql": "SELECT \nsum(bull) as bulls,\nsum(bear) as bears,\nsum(usdt) as usdts \nfrom assets  \n",
           "refId": "A",
           "select": [
             [
@@ -192,6 +192,80 @@
       },
       "gridPos": {
         "h": 5,
+        "w": 6,
+        "x": 9,
+        "y": 0
+      },
+      "id": 14,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "7.0.0",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "\nSELECT \n \nsum(a.bull-b.bull) as 卖出bull,\nsum(a.bear-b.bear) as 卖出bear,\nsum(a.usdt-b.usdt) as 赚usdt\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "毛利合计",
+      "type": "bargauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
         "w": 9,
         "x": 15,
         "y": 0
@@ -216,7 +290,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \nsum(bullblock) as bulls,\nsum(bearblock) as bears \nfrom assets group by accountid",
+          "rawSql": "SELECT \nsum(bullblock) as bulls,\nsum(bearblock) as bears \nfrom assets ",
           "refId": "A",
           "select": [
             [
@@ -248,7 +322,9 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null
+            "align": "left",
+            "displayMode": "color-background",
+            "width": 120
           },
           "mappings": [],
           "thresholds": {
@@ -265,84 +341,28 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alias"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 6,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 5
       },
-      "id": 8,
+      "id": 12,
       "options": {
-        "angular": {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "fill": 1,
-          "fillGradient": 0,
-          "hiddenSeries": false,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
-          "options": {
-            "dataLinks": []
-          },
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "thresholds": [],
-          "timeRegions": [],
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
         "showHeader": true
       },
       "pluginVersion": "7.0.0",
@@ -350,10 +370,9 @@
         {
           "format": "table",
           "group": [],
-          "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT * from assets",
+          "rawSql": "SELECT \na.alias,\na.bull 初牛,\nb.bull 现牛,\na.bull-b.bull as 卖出bull,\n\na.bear 初熊,\nb.bear 现熊,\na.bear-b.bear as 卖出bear,\n\na.usdt 初U, \nb.usdt 现U, \n\na.usdt-b.usdt as 赚usdt\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
           "refId": "A",
           "select": [
             [
@@ -377,7 +396,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "各地址资产情况",
+      "title": "毛利",
       "type": "table"
     },
     {
@@ -385,7 +404,8 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null
+            "align": "left",
+            "displayMode": "color-text"
           },
           "mappings": [],
           "thresholds": {
@@ -406,12 +426,82 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "id"
+              "options": "alias"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "auto"
+              },
+              {
+                "id": "displayName",
+                "value": "使用者"
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "address"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "auto"
+              },
+              {
+                "id": "custom.width",
+                "value": 327
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "地址"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bull"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": null
+                "value": 80
+              },
+              {
+                "id": "displayName"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bear"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "usdt"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
               }
             ]
           }
@@ -421,7 +511,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 13
       },
       "id": 2,
       "options": {
@@ -500,9 +590,10 @@
         {
           "format": "table",
           "group": [],
+          "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select * from address",
+          "rawSql": "select alias, bull,bear, usdt,CONCAT('eth:',address) as 地址,create_at from address",
           "refId": "A",
           "select": [
             [
@@ -527,6 +618,12 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "地址列表",
+      "transformations": [
+        {
+          "id": "filterByRefId",
+          "options": {}
+        }
+      ],
       "type": "table"
     }
   ],
@@ -557,5 +654,5 @@
   "timezone": "",
   "title": "Bee Network  ETF Balance Watch",
   "uid": "rZRlzseWz",
-  "version": 1
+  "version": 2
 }

@@ -11,6 +11,9 @@ CREATE TABLE address (
   access_key TEXT,
   secret_key TEXT,
   alias TEXT,
+  bull    NUMERIC default 0,
+  bear    NUMERIC default  0,
+  usdt NUMERIC default  0,
   create_at date DEFAULT now()
 );
 
@@ -19,14 +22,14 @@ CREATE TABLE balances (
   id SERIAL PRIMARY KEY, 
   
   accountId     integer not null,
-  bull    NUMERIC,
-  bear    NUMERIC,
-  bullblock    NUMERIC,
-  bearblock    NUMERIC,
-  usdt    NUMERIC, 
-  usdtblock NUMERIC, 
-  eth NUMERIC ,
-  ethblock NUMERIC,
+  bull    NUMERIC default 0,
+  bear    NUMERIC default 0,
+  bullblock    NUMERIC default 0,
+  bearblock   NUMERIC default 0,
+  usdt    NUMERIC default 0,
+  usdtblock NUMERIC default 0,
+  eth NUMERIC default 0,
+  ethblock NUMERIC default 0,
   time        TIMESTAMPTZ       DEFAULT now()
 
 );
@@ -35,13 +38,13 @@ CREATE TABLE assets (
   id SERIAL PRIMARY KEY, 
   
   accountId     integer not null,
-  bull    NUMERIC,
-  bear    NUMERIC,
-  bullblock    NUMERIC,
-  bearblock    NUMERIC,
-  usdt    NUMERIC, 
-  usdtblock NUMERIC, 
-  eth NUMERIC ,
+  bull    NUMERIC default 0,
+  bear   NUMERIC default 0,
+  bullblock   NUMERIC default 0,
+  bearblock   NUMERIC default 0,
+  usdt    NUMERIC default 0,
+  usdtblock NUMERIC default 0,
+  eth NUMERIC default 0,
   ethblock NUMERIC,
   time        TIMESTAMPTZ     DEFAULT now()
 

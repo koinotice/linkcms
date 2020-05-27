@@ -28,12 +28,8 @@ query = '''query getAddress {
 }'''
 
 insertbalance='''
- mutation upsert_article($object: [balances_insert_input!]!,$assets:[assets_insert_input!]!) {
-                        insert_balances(objects: $object) {
-                          returning {
-                            id
-                          }
-                        }
+mutation upsert_article($assets:[assets_insert_input!]!) {
+                        
                         insert_assets(objects:$assets, on_conflict: {constraint: assets_pkey, update_columns: [bear, bull,usdt,eth,bearblock,bullblock]}) {
                           returning {
                             id
@@ -55,7 +51,7 @@ HOST = 'https://openapi.dragonex.im'
 
 def update_balance(data,accountId):
     bb={
-            "accountId":accountId,
+            "id":accountId,
             "bull":0,
             "bear":0,
             "usdt":0,
@@ -89,8 +85,8 @@ def update_balance(data,accountId):
     assert1.update(bb)
     variables = {}
     variables['assets']=assert1
-    variables['object']=bb
-    print(bb)
+     
+   
           
 
     updateBalance = endpoint(insertbalance, variables)

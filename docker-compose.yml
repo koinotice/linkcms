@@ -59,6 +59,7 @@ services:
       GF_PATHS_CONFIG: /etc/grafana/grafana.ini
     volumes:
       - ./docker/grafana:/etc/grafana
+      - ./grafana-plugins:/var/lib/grafana/plugins
       
      
   

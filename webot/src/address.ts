@@ -78,7 +78,7 @@ class Address {
         );
         const that = this;
         var consumer = subscriptionClient.subscribe((eventData: any) => {
-            console.log(eventData)
+            
              
             that.Addresss = eventData
 
@@ -100,7 +100,7 @@ class Address {
     */
     async insertBalance(data: { accountId: number; totalAmount: any; amountLocked: any; tokenId: number; }[]) {
         let balance={
-            accountId:0,
+            id:0,
             bull:0,
             bear:0,
             usdt:0,
@@ -111,8 +111,8 @@ class Address {
 
         }
         data.forEach((token: { accountId: number; totalAmount: any; amountLocked: any; tokenId: number; })=>{
-            console.log(token)
-            balance.accountId=token.accountId
+          
+            balance.id=token.accountId
             let amount= (new BigNumber(token.totalAmount).div(1e18).toFixed(2) )
             let block= (new BigNumber(token.amountLocked).div(1e18).toFixed(2) )
 
@@ -138,8 +138,8 @@ class Address {
              
 
         })
-        console.log(balance)
-        let assert= Object.assign({id:balance.accountId}, balance);
+        //console.log(balance)
+        let assert= balance;
        
 
         let res = await fetch(
@@ -151,12 +151,8 @@ class Address {
                 },
                 body: JSON.stringify({
                     query: ` 
-                    mutation upsert_article($object: [balances_insert_input!]!,$assets:[assets_insert_input!]!) {
-                        insert_balances(objects: $object) {
-                          returning {
-                            id
-                          }
-                        }
+                    mutation upsert_article($assets:[assets_insert_input!]!) {
+                        
                         insert_assets(objects:$assets, on_conflict: {constraint: assets_pkey, update_columns: [bear, bull,usdt,eth,bearblock,bullblock]}) {
                           returning {
                             id
@@ -164,23 +160,19 @@ class Address {
                         }
                       }
                   `,
-                    variables: {
-                        object: balance,
+                    variables: { 
                         assets:assert
                     }
                 })
             }
         );
 
-        var a=  {
-            object: balance,
-            assets:assert
-        }
-         console.log(a)
+       
+        // console.log(res)
     }
 
     async setBalance(accout: { account_id: any; access_key: any; }, tokens: any) {
-        console.log("get balance")
+        //console.log("get balance")
         let response = await fetch(
             `${ENV.WEDEX_API}/api/v2/user/balances?accountId=${accout.account_id}&tokens=${tokens}`,
             {
@@ -192,7 +184,7 @@ class Address {
         )
         let res = await response.json()
 
-        console.log(res,accout, tokens)
+        //console.log(res,accout, tokens)
         let data = res.data
 
         await this.insertBalance(data)
