@@ -172,7 +172,9 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {},
+          "custom": {
+            "align": null
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -188,25 +190,54 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "卖出bull"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 86
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "卖出bear"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 101
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "赚usdt"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 5,
-        "w": 6,
+        "w": 8,
         "x": 9,
         "y": 0
       },
       "id": 14,
       "options": {
-        "displayMode": "gradient",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "values": false
-        },
-        "showUnfilled": true
+        "showHeader": true
       },
       "pluginVersion": "7.0.0",
       "targets": [
@@ -215,7 +246,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "\nSELECT \n \nsum(a.bull-b.bull) as 卖出bull,\nsum(a.bear-b.bear) as 卖出bear,\nsum(a.usdt-b.usdt) as 赚usdt\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
+          "rawSql": "\nSELECT \n \nsum(a.bull-b.bull) as 卖出bull,\nsum(a.bear-b.bear) as 卖出bear,\nsum(a.usdt-b.usdt) as 赚usdt,\ndex\nfrom assets  as b\nleft join address as a\non a.account_id=b.id\n\ngroup by dex",
           "refId": "A",
           "select": [
             [
@@ -240,7 +271,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "毛利合计",
-      "type": "bargauge"
+      "type": "table"
     },
     {
       "datasource": null,
@@ -266,8 +297,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 9,
-        "x": 15,
+        "w": 7,
+        "x": 17,
         "y": 0
       },
       "id": 10,
@@ -323,8 +354,7 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-background",
-            "width": 120
+            "displayMode": "auto"
           },
           "mappings": [],
           "thresholds": {
@@ -341,22 +371,10 @@
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "alias"
-            },
-            "properties": [
-              {
-                "id": "custom.width"
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 24,
         "x": 0,
         "y": 5
@@ -372,7 +390,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \na.alias,\na.bull 初牛,\nb.bull 现牛,\na.bull-b.bull as 卖出bull,\n\na.bear 初熊,\nb.bear 现熊,\na.bear-b.bear as 卖出bear,\n\na.usdt 初U, \nb.usdt 现U, \n\na.usdt-b.usdt as 赚usdt\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
+          "rawSql": "SELECT \na.alias ,\n \nb.bull 现牛,\na.bull-b.bull as 卖出牛, \nb.bear 现熊,\na.bear-b.bear as 卖出熊, \nb.usdt 现Usdt,  \na.usdt-b.usdt as 赚Usdt\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
           "refId": "A",
           "select": [
             [
@@ -511,7 +529,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 15
       },
       "id": 2,
       "options": {
@@ -654,5 +672,5 @@
   "timezone": "",
   "title": "Bee Network  ETF Balance Watch",
   "uid": "rZRlzseWz",
-  "version": 2
+  "version": 4
 }
