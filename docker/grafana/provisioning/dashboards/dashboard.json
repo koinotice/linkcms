@@ -15,6 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "iteration": 1590741794682,
   "links": [],
   "panels": [
     {
@@ -173,7 +174,8 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null
+            "align": null,
+            "width": 100
           },
           "mappings": [],
           "thresholds": {
@@ -223,7 +225,19 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 90
+                "value": 77
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dex"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
               }
             ]
           }
@@ -231,7 +245,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 8,
+        "w": 10,
         "x": 9,
         "y": 0
       },
@@ -246,7 +260,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "\nSELECT \n \nsum(a.bull-b.bull) as 卖出bull,\nsum(a.bear-b.bear) as 卖出bear,\nsum(a.usdt-b.usdt) as 赚usdt,\ndex\nfrom assets  as b\nleft join address as a\non a.account_id=b.id\n\ngroup by dex",
+          "rawSql": "\nSELECT \ndex,\nsum(a.bull-b.bull) as 卖出bull,\nsum(a.bear-b.bear) as 卖出bear,\nsum(b.usdt-a.usdt) as 赚取usdt,\nsum(b.usdt-a.usdt)-sum(a.bull-b.bull)*$3BBULL-sum(a.bear-b.bear)*$3BBEAR as \"利润\"\nfrom assets  as b\nleft join address as a\non a.account_id=b.id\n\ngroup by dex",
           "refId": "A",
           "select": [
             [
@@ -297,8 +311,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 7,
-        "x": 17,
+        "w": 5,
+        "x": 19,
         "y": 0
       },
       "id": 10,
@@ -353,6 +367,75 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
+            "align": "center"
+          },
+          "decimals": 3,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 16,
+      "options": {
+        "showHeader": true
+      },
+      "pluginVersion": "7.0.0",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select symbol 币种,\nlastworth 前一净值,\ncurrworth 当前净值,\nlastprice 前一价格,\ncurrprice 当前价格 from worth\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "净值变化",
+      "type": "table"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
             "align": "left",
             "displayMode": "auto"
           },
@@ -377,7 +460,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 9
       },
       "id": 12,
       "options": {
@@ -390,7 +473,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \na.alias ,\n \nb.bull 现牛,\na.bull-b.bull as 卖出牛, \nb.bear 现熊,\na.bear-b.bear as 卖出熊, \nb.usdt 现Usdt,  \na.usdt-b.usdt as 赚Usdt\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
+          "rawSql": "SELECT \na.alias \"使用者\",\n \nb.bull Bull现存数量 ,\na.bull-b.bull as Bull卖出数量, \nb.bear Bear现存数量,\na.bear-b.bear as Bear卖出数量, \nb.usdt Usdt现存数量,  \nb.usdt-a.usdt as Usdt赚取数量\n \nfrom assets  as b\nleft join address as a\non a.account_id=b.id",
           "refId": "A",
           "select": [
             [
@@ -529,7 +612,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 19
       },
       "id": 2,
       "options": {
@@ -650,7 +733,60 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "119.81",
+          "value": "119.81"
+        },
+        "datasource": "pg",
+        "definition": "select currworth from worth where symbol='3BBULL'",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "3BBULL",
+        "options": [],
+        "query": "select currworth from worth where symbol='3BBULL'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "78.46",
+          "value": "78.46"
+        },
+        "datasource": "pg",
+        "definition": "select currworth from worth where symbol='3BBEAR'",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "3BBEAR",
+        "options": [],
+        "query": "select currworth from worth where symbol='3BBEAR'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -672,5 +808,5 @@
   "timezone": "",
   "title": "Bee Network  ETF Balance Watch",
   "uid": "rZRlzseWz",
-  "version": 4
+  "version": 12
 }

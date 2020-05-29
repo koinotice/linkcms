@@ -6,6 +6,7 @@ if (!process.env.GENV){
 }
 
 import {Address} from './address';
+import {Worth} from './worth';
 
 import delay from 'delay';
 
@@ -48,30 +49,13 @@ class Bot {
     public market: any
     public ads: Address
     public baseCoin: any
+    public worth:any
 
     public constructor() {
 
     }
 
-    public async getAddress() {
-
-        //const balance = await wedex.Wallet.getWalletBalances().toPromise();
-        //
-        //
-        // const eth = utils.getTokenInfo(balance, 0);
-        // const lrc = utils.getTokenInfo(balance, 2);
-        // const usdt = utils.getTokenInfo(balance, 3)
-        // const dkey = utils.getTokenInfo(balance, 4)
-        //
-        // console.log("eth:%s,lrc:%s ,usdt:%s,dkey:%s \n",
-        //     utils.getAmount(eth.totalAmount.minus(eth.frozenAmount)),
-        //     utils.getAmount(lrc.totalAmount.minus(lrc.frozenAmount)),
-        //     utils.getAmount(usdt.totalAmount.minus(usdt.frozenAmount), 1e6),
-        //     utils.getAmount(dkey.totalAmount.minus(dkey.frozenAmount))
-        // )ss(env)
-
-
-    }
+     
 
     public async getBalance(account: { account_id: any; access_key: any; }) {
 
@@ -84,7 +68,7 @@ class Bot {
         this.ads = new Address()
         await this.ads.FetchAddress()
         const data = this.ads.getAddress()
-
+        this.worth=new Worth    
         const that=this;
          
         if(data=="undefined"){
@@ -101,13 +85,8 @@ class Bot {
 
     public async task() {
 
-        //console.log(1)
-        const data = await this.ads.getAddress() 
-        
-        // for (const [i, account] of data.data.address.entries()) {
-            
-        //     await this.getBalance(account)
-        // }
+        await this.worth.GetWorth()
+        const data = await this.ads.getAddress()   
         const that=this
         eachLimit(data.data.address, 1, async function(account:any,callback:any) {
            // console.log("adfasdfa",account)

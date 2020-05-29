@@ -87,7 +87,7 @@ def update_balance(data,accountId):
     variables['assets']=assert1
      
    
-          
+    print(assert1)
 
     updateBalance = endpoint(insertbalance, variables)
     print(updateBalance)  
