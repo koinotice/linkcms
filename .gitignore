@@ -6,6 +6,5 @@
 /coverage
 /.env
 /src/tests/resources/*.key*
-package.json.bak
-/*/
+package.json.bak 
 data

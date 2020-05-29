@@ -1,0 +1,39 @@
+{
+  "name": "grafana-json-datasource",
+  "description": "Grafana JSON datasource",
+  "main": "index.js",
+  "version": "0.1.7",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "prettier:check": "prettier --list-different \"**/*.{ts,tsx,scss}\"",
+    "prettier:write": "prettier --list-different \"**/*.{ts,tsx,scss}\" --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simPod/grafana-json-datasource.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simPod/grafana-json-datasource/issues"
+  },
+  "engineStrict": true,
+  "devDependencies": {
+    "@grafana/data": "^6.4.4",
+    "@grafana/toolkit": "^6.5.0-beta.1",
+    "@grafana/ui": "^6.4.4",
+    "@types/lodash": "^4.14.136",
+    "grafana-sdk-mocks": "github:grafana/grafana-sdk-mocks"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "homepage": "https://github.com/simPod/grafana-json-datasource#readme",
+  "jest": {
+    "moduleNameMapper": {
+      "app/plugins/sdk": "<rootDir>/node_modules/grafana-sdk-mocks/app/plugins/sdk.ts"
+    }
+  }
+}

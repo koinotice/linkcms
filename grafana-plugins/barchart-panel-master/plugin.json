@@ -1,0 +1,43 @@
+{
+  "type": "panel",
+  "name": "Bar Chart",
+  "id": "grafana-barchart-panel",
+  "info": {
+    "description": "Bar chart panel for grafana",
+    "author": {
+      "name": "Mathias Methner",
+      "email": "mathiasmethner@gmail.com",
+      "url": "https://mathiasmethner.de"
+    },
+    "keywords": [
+      "barchart",
+      "panel"
+    ],
+    "links": [
+      {
+        "name": "Project site",
+        "url": "https://github.com/mmethner/barchart-panel"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/mmethner/barchart-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Barchart",
+        "path": "src/img/barchart-panel.png"
+      },
+      {
+        "name": "Barchart Options",
+        "path": "src/img/barchart-options.png"
+      }
+    ],
+    "version": "0.0.3",
+    "updated": "2016-09-14"
+  },
+  "dependencies": {
+    "grafanaVersion": "3.x.x",
+    "plugins": []
+  }
+}

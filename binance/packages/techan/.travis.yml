@@ -1,0 +1,13 @@
+language: go
+
+go:
+  - "1.12"
+
+install:
+  - go get
+
+script:
+  - make test-with-coverage
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

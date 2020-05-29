@@ -1,0 +1,112 @@
+
+
+
+
+[[
+  {
+    BuyAmount: 0.4
+    BuyAvailable: 0
+    BuyPriceAvg: 9197.0488
+    BuyPriceCost: 0
+    BuyProfitReal: -11.72748839
+    CreateDate: 0
+    LeverRate: 100
+    SellAmount: 0
+    SellAvailable: 0
+    SellPriceAvg: 0
+    SellPriceCost: 0
+    SellProfitReal: 0
+    Symbol: BTC_USDT
+    ContractType: ContractId
+    :
+    0
+    ForceLiquPrice: 9546.66
+  },
+  {
+    BuyAmount: 0
+    BuyAvailable: 0
+    BuyPriceAvg: 0
+    BuyPriceCost: 0
+    BuyProfitReal: 0
+    CreateDate: 0
+    LeverRate: 100
+    SellAmount: -1.04
+    SellAvailable: 0
+    SellPriceAvg: 8870.19231
+    SellPriceCost: 0
+    SellProfitReal: -309.43928219
+    Symbol: BTC_USDT
+    ContractType: ContractId
+    :
+    0
+    ForceLiquPrice: 9546.66
+  },
+  {
+    "entryPrice": "0.00000",
+    // 开仓均价
+    "marginType": "isolated",
+    // 逐仓模式或全仓模式
+    "isAutoAddMargin": "false",
+    "isolatedMargin": "0.00000000",
+    // 逐仓保证金
+    "leverage": "10",
+    // 当前杠杆倍数
+    "liquidationPrice": "0",
+    // 参考强平价格
+    "markPrice": "6679.50671178",
+    // 当前标记价格
+    "maxNotionalValue": "20000000",
+    // 当前杠杆倍数允许的名义价值上限
+    "positionAmt": "0.000",
+    // 头寸数量，符号代表多空方向, 正数为多，负数为空
+    "symbol": "BTCUSDT",
+    // 交易对
+    "unRealizedProfit": "0.00000000",
+    // 持仓未实现盈亏
+    "positionSide": "BOTH"
+    // 持仓方向
+  },
+  {
+    BuyAmount: 0
+    BuyAvailable: 0
+    BuyPriceAvg: 0
+    BuyPriceCost: 0
+    BuyProfitReal: 0
+    CreateDate: 0
+    LeverRate: 100
+    SellAmount: -1.04
+    SellAvailable: 0
+    SellPriceAvg: 8870.19231
+    SellPriceCost: 0
+    SellProfitReal: -313.96034393
+    Symbol: BTC_USDT
+    ContractType: ContractId
+    :
+    0
+    ForceLiquPrice: 9546.66
+  }
+],
+[BNB:{Currency:BNB ,
+  AccountRights:0.0001668
+  KeepDeposit:0.0001668
+  ProfitReal:0
+  ProfitUnreal:0,
+  RiskRate:0}
+  USDT:{Currency:USDT,
+  AccountRights:618.67291642,
+  KeepDeposit:299.24475305
+  ProfitReal:0
+  ProfitUnreal:-319.42816337
+  RiskRate:-319.42816337}]]
+
+
+CREATE TABLE exchange (
+id SERIAL PRIMARY KEY,
+exchange text,
+contract text,
+keep NUMERIC default 0,
+profitunreal    NUMERIC default 0,
+riskrate    NUMERIC default 0,
+time        TIMESTAMPTZ     DEFAULT now()
+
+);
