@@ -61,8 +61,6 @@ services:
       - ./docker/grafana:/etc/grafana
       - ./grafana-plugins:/var/lib/grafana/plugins
       
-
-      
      
   
   
