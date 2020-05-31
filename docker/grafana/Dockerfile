@@ -1,5 +1,10 @@
-FROM grafana/grafana:7.0.0
+FROM grafana/grafana:latest
 
-# COPY ./postgres.yml /etc/grafana/provisioning/datasources/postgres.yml
-# COPY ./dashboards.yml /etc/grafana/provisioning/dashboards/dashboards.yml
-# COPY ./dashboard.json /var/lib/grafana/dashboards/dashboard.json
+RUN  grafana-cli plugins install grafana-worldmap-panel \
+  && grafana-cli plugins install grafana-clock-panel \
+  && grafana-cli plugins install grafana-piechart-panel \
+  && grafana-cli plugins install grafana-simple-json-datasource \
+  && grafana-cli plugins install satellogic-3d-globe-panel \
+  && grafana-cli plugins install natel-discrete-panel \
+  && grafana-cli plugins install jdbranham-diagram-panel \
+  && grafana-cli plugins install natel-plotly-panel

@@ -63,3 +63,22 @@ time        TIMESTAMPTZ     DEFAULT now()
 );
 
 {"symbol":"3BBULL","lastWorth":86.48,"currWorth":89.05,"lastPrice":8810.56,"currPrice":8898.02}
+
+
+
+select 
+exchange 交易所,
+amount 数量,
+priceavg 开仓价,
+profitreal 未实现盈亏,
+leverrate 倍数, 
+forceliquprice 强平价
+
+from contract
+
+
+
+
+SELECT exchange, keep 保证金,
+profitunreal 未实现盈亏,
+accountrights 钱包余额   from exchange

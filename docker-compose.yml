@@ -44,6 +44,8 @@ services:
       - graphql-engine
       - serve
       - --enable-console 
+
+  
   grafana:
     build: ./docker/grafana
     container_name: link_grafana
@@ -51,15 +53,16 @@ services:
       - "3000:3000"
     links:
       - postgres
-     
-    environment:
-      GF_USERS_DEFAULT_THEME: "light" 
-      GF_LOG_LEVEL: error
-      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
-      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
-    volumes:
-      - ./docker/grafana:/etc/grafana
-      - ./grafana-plugins:/var/lib/grafana/plugins
+    volumes: 
+      - ./data/grafana:/var/lib/grafana:rw 
+    # environment:
+    #   GF_USERS_DEFAULT_THEME: "light" 
+    #   GF_LOG_LEVEL: error
+    #   GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+    #   GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+    # volumes:
+    #   - ./docker/grafana:/etc/grafana
+    #   - ./grafana-plugins:/var/lib/grafana/plugins
       
      
   

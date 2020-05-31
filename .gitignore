@@ -1,5 +1,4 @@
-/node_modules
-
+/node_modules 
 .vscode/
 .ds_store
 /.nyc_output
@@ -8,3 +7,6 @@
 /src/tests/resources/*.key*
 package.json.bak 
 data
+.idea
+webot/node_modules
+grafana-plugins

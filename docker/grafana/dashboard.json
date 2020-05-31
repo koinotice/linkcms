@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1590746911930,
+  "iteration": 1590912284122,
   "links": [],
   "panels": [
     {
@@ -432,14 +432,15 @@
       "type": "table"
     },
     {
-      "datasource": "pg",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "width": 100
+            "align": null
           },
+          "decimals": 3,
           "mappings": [],
+          "max": -15,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -457,8 +458,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 12,
+        "h": 5,
+        "w": 16,
         "x": 0,
         "y": 9
       },
@@ -473,7 +474,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select \nexchange 交易所,\namount 数量,\npriceavg 开仓价,\nprofitreal 未实现盈亏,\nleverrate 倍数, \nforceliquprice 强平价\n\nfrom contract\n",
+          "rawSql": "select \nexchange 交易所,\namount 数量,\npriceavg 开仓价,\nprofitreal 未实现盈亏,\nleverrate 倍数, \nforceliquprice 强平价\n\nfrom contract",
           "refId": "A",
           "select": [
             [
@@ -501,13 +502,14 @@
       "type": "table"
     },
     {
-      "datasource": "pg",
+      "datasource": null,
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
+            "align": "center",
             "width": 100
           },
+          "decimals": 3,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -523,12 +525,25 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "exchange"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 123
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 12,
-        "x": 12,
+        "h": 5,
+        "w": 8,
+        "x": 16,
         "y": 9
       },
       "id": 20,
@@ -566,7 +581,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "合约资",
+      "title": "合约资产",
       "type": "table"
     },
     {
@@ -598,7 +613,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 14
       },
       "id": 12,
       "options": {
@@ -750,7 +765,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 24
       },
       "id": 2,
       "options": {
@@ -876,8 +891,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "118.99",
-          "value": "118.99"
+          "text": "121.53",
+          "value": "121.53"
         },
         "datasource": "pg",
         "definition": "select currworth from worth where symbol='3BBULL'",
@@ -902,8 +917,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "78.96",
-          "value": "78.96"
+          "text": "75.57",
+          "value": "75.57"
         },
         "datasource": "pg",
         "definition": "select currworth from worth where symbol='3BBEAR'",
@@ -946,5 +961,5 @@
   "timezone": "",
   "title": "Bee Network  ETF Balance Watch",
   "uid": "rZRlzseWz",
-  "version": 13
+  "version": 15
 }
