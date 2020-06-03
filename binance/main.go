@@ -4,14 +4,17 @@ import (
 	//"database/sql"
 	//"encoding/json"
 	"fmt"
+	"net"
+
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/koinotice/redox/packages/goex"
 	"github.com/koinotice/redox/packages/goex/binance"
 	"github.com/koinotice/redox/wedex/model"
-	"net"
+
 	//"fmt"
 
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -19,10 +22,10 @@ var bs = binance.NewBinanceSwap(&goex.APIConfig{
 	//Endpoint: "https://testnet.binancefuture.com",
 	HttpClient: &http.Client{
 		Transport: &http.Transport{
-			//Proxy: func(req *http.Request) (*url.URL, error) {
-			//	return url.Parse("socks5://127.0.0.1:15235")
-			//	return nil, nil
-			//},
+			Proxy: func(req *http.Request) (*url.URL, error) {
+				return url.Parse("socks5://127.0.0.1:15235")
+				return nil, nil
+			},
 			Dial: (&net.Dialer{
 				Timeout: 10 * time.Second,
 			}).Dial,
@@ -42,7 +45,6 @@ func main() {
 	for {
 		select {
 
-
 		case <-ticker.C:
 			go getOpenOrder()
 			go getAccount()
@@ -57,29 +59,36 @@ func getOpenOrder() {
 	fmt.Println("start get open orders")
 	orders, err := bs.GetFuturePosition(goex.BTC_USDT, "")
 	//fmt.Printf("start get open orders",orders)
+
 	if err != nil {
 		fmt.Println(err)
 	} else {
+		m := model.Contract{}
+		err = m.Delete()
 		for _, order := range orders {
-			m := model.Contract{
-				ForceLiquPrice: order.ForceLiquPrice,
-				LeverRate:      order.LeverRate,
-			}
+
+			m.ForceLiquPrice = order.ForceLiquPrice
+			m.LeverRate = order.LeverRate
+
 			if order.BuyAmount > 0 {
 				m.Amount = order.BuyAmount
 				m.ProfitReal = order.BuyProfitReal
 				m.PriceAvg = order.BuyPriceAvg
 				m.Direct = "多单"
+				m.Code = "binance"
 				m.Exchange = "Binana-BTC/USDT-多单"
-
-			} else {
+				m.Upsert(&m)
+			}
+			if order.SellAmount > 0  {
 				m.Amount = order.SellAmount
 				m.ProfitReal = order.SellProfitReal
 				m.PriceAvg = order.SellPriceAvg
 				m.Direct = "空单"
+				m.Code = "binance"
 				m.Exchange = "Binana-BTC/USDT-空单"
+				m.Upsert(&m)
 			}
-			m.Upsert(&m)
+
 			fmt.Printf("%+v\n", order)
 		}
 
@@ -91,18 +100,18 @@ func getAccount() {
 	Userinfo, err := bs.GetFutureUserinfo()
 	if err != nil {
 		fmt.Println(err)
-	}else{
+	} else {
 		for _, balance := range Userinfo.FutureSubAccounts {
 			//m:=model.Exchange.FindById(3)
 
 			m := model.Exchange{
-			Exchange:      "binanace-" + balance.Currency.Symbol,
-			Contract:      "永续",
-			AccountRights: balance.AccountRights,
-			Keep:          balance.KeepDeposit,
-			ProfitUnreal:  balance.ProfitUnreal,
-			RiskRate:      balance.RiskRate,
-		}
+				Exchange:      "binanace-" + balance.Currency.Symbol,
+				Contract:      "永续",
+				AccountRights: balance.AccountRights,
+				Keep:          balance.KeepDeposit,
+				ProfitUnreal:  balance.ProfitUnreal,
+				RiskRate:      balance.RiskRate,
+			}
 			m.Upsert(&m)
 
 		}

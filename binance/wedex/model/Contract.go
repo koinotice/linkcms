@@ -4,6 +4,7 @@ package model
 type Contract struct {
 	//ID            int64   `db:"id" auto:"true" primaryKey:"true" autoIncrement:"true" gorm:"primary_key"`
 	Exchange  string    `gorm:"column:exchange" json:"exchange" gorm:"not null;"`
+	Code string    `gorm:"column:code" json:"code" `
 	Direct string    `gorm:"column:direct" json:"direct" `
 	Symbole string    `gorm:"column:symbole" json:"symbole" `
 	Amount    float64    `gorm:"column:amount" json:"amount"`
@@ -27,11 +28,22 @@ func (Contract) Upsert(order *Contract) error {
 		Exchange: order.Exchange,
 	}).Assign(Contract{
 		Amount:order.Amount,
+		Code:order.Code,
 		PriceAvg: order.PriceAvg,
 		ProfitReal: order.ProfitReal,
 		LeverRate: order.LeverRate,
 		ForceLiquPrice:order.ForceLiquPrice,
 	}).FirstOrCreate(&order)
+
+	return nil
+
+}
+
+func (Contract) Delete() error {
+
+	//DB.Where(gorm.entity.AggregatedData{Type: v.Type}).Assign(entity.AggregatedData{Type: v.Type, Data: v.Data}).FirstOrCreate(v)
+
+	DB.Where("code=?", "binance").Delete(Contract{})
 
 	return nil
 
