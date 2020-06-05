@@ -5,6 +5,7 @@ import (
 	//"encoding/json"
 	"fmt"
 	"net"
+	"net/url"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/koinotice/redox/packages/goex"
@@ -21,10 +22,10 @@ var bs = binance.NewBinanceSwap(&goex.APIConfig{
 	//Endpoint: "https://testnet.binancefuture.com",
 	HttpClient: &http.Client{
 		Transport: &http.Transport{
-			//Proxy: func(req *http.Request) (*url.URL, error) {
-			//	return url.Parse("socks5://127.0.0.1:15235")
-			//	return nil, nil
-			//},
+			Proxy: func(req *http.Request) (*url.URL, error) {
+				return url.Parse("socks5://127.0.0.1:15235")
+				return nil, nil
+			},
 			Dial: (&net.Dialer{
 				Timeout: 10 * time.Second,
 			}).Dial,
@@ -40,7 +41,7 @@ func main() {
 
 	//go getOpenOrder()
 
-	ticker := time.NewTicker(3 * time.Second)
+	ticker := time.NewTicker(15 * time.Second)
 	for {
 		select {
 
@@ -69,7 +70,9 @@ func getOpenOrder() {
 			m.ForceLiquPrice = order.ForceLiquPrice
 			m.LeverRate = order.LeverRate
 
-			if order.BuyAmount > 0 {
+			if order.BuyPriceAvg > 0 {
+				fmt.Println("多单")
+
 				m.Amount = order.BuyAmount
 				m.ProfitReal = order.BuyProfitReal
 				m.PriceAvg = order.BuyPriceAvg
@@ -78,7 +81,8 @@ func getOpenOrder() {
 				m.Exchange = "Binana-BTC/USDT-多单"
 				m.Upsert(&m)
 			}
-			if order.SellAmount > 0  {
+			if order.SellPriceAvg > 0  {
+				fmt.Println("空单")
 				m.Amount = order.SellAmount
 				m.ProfitReal = order.SellProfitReal
 				m.PriceAvg = order.SellPriceAvg

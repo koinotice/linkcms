@@ -82,3 +82,17 @@ from contract
 SELECT exchange, keep 保证金,
 profitunreal 未实现盈亏,
 accountrights 钱包余额   from exchange
+
+
+
+query getAddress {
+  address{
+  id,
+  bear
+  balance{
+      bear,
+      bull
+    }
+  }
+  
+}
