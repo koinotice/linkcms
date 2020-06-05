@@ -4,13 +4,11 @@ import (
 	//"database/sql"
 	//"encoding/json"
 	"fmt"
-	"net"
-	"net/url"
-
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/koinotice/redox/packages/goex"
 	"github.com/koinotice/redox/packages/goex/binance"
 	"github.com/koinotice/redox/wedex/model"
+	"net"
 
 	//"fmt"
 
@@ -22,10 +20,10 @@ var bs = binance.NewBinanceSwap(&goex.APIConfig{
 	//Endpoint: "https://testnet.binancefuture.com",
 	HttpClient: &http.Client{
 		Transport: &http.Transport{
-			Proxy: func(req *http.Request) (*url.URL, error) {
-				return url.Parse("socks5://127.0.0.1:15235")
-				return nil, nil
-			},
+			//Proxy: func(req *http.Request) (*url.URL, error) {
+			//	return url.Parse("socks5://127.0.0.1:15235")
+			//	return nil, nil
+			//},
 			Dial: (&net.Dialer{
 				Timeout: 10 * time.Second,
 			}).Dial,
