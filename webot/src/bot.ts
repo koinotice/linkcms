@@ -7,6 +7,7 @@ if (!process.env.GENV){
 
 import {Address} from './address';
 import {Worth} from './worth';
+import {Dkey} from './dkey';
 
 import delay from 'delay';
 
@@ -50,6 +51,7 @@ class Bot {
     public ads: Address
     public baseCoin: any
     public worth:any
+    public dkey:any
 
     public constructor() {
 
@@ -59,7 +61,7 @@ class Bot {
 
     public async getBalance(account: { account_id: any; access_key: any; }) {
 
-        console.log(account)
+       
         await this.ads.setBalance(account,'0,1,2,3,4,5,6,7,8')
 
     }
@@ -68,7 +70,9 @@ class Bot {
         this.ads = new Address()
         await this.ads.FetchAddress()
         const data = this.ads.getAddress()
-        this.worth=new Worth    
+        this.worth=new Worth   
+        
+        this.dkey=new Dkey
         const that=this;
          
         if(data=="undefined"){
@@ -105,6 +109,13 @@ class Bot {
             
         });
         job.start();
+
+        const job1 = new CronJob("0 8 * * * *", function () {
+            const d = new Date();
+            that.dkey.GetData()
+            
+        });
+        job1.start();
 
     }
 }

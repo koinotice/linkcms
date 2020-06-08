@@ -90,12 +90,8 @@ class Worth {
                     }
                 })
             }
-        );
-
-       
-        console.log(JSON.stringify({ 
-                        object:data
-                    }))
+        ); 
+        
     }
 
     async GetWorth() {
@@ -117,7 +113,7 @@ class Worth {
             }
         )
         let res = await response.json()
-        console.log(res)
+        
         var data = _.transform(res, function (result, val, key) {
             result[key.toLowerCase()] = val;
         });

@@ -49,3 +49,16 @@ CREATE TABLE assets (
   time        TIMESTAMPTZ     DEFAULT now()
 
 );
+
+
+CREATE TABLE dkey (
+  id SERIAL PRIMARY KEY, 
+  
+  
+  bull    NUMERIC default 0,
+  bear   NUMERIC default 0,
+  bullnum   NUMERIC default 0,
+  bearnum   NUMERIC default 0, 
+  time        TIMESTAMPTZ     DEFAULT now()
+
+);

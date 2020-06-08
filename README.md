@@ -96,3 +96,48 @@ query getAddress {
   }
   
 }
+
+
+
+query MyQuery {
+  assets_aggregate(where: {id: {_gt: 2}}) {
+     
+    aggregate {
+      sum {
+        bear
+         bull
+      }
+      
+    }
+  }
+  address_aggregate(where: {dex: {_eq: "wedex"}}) {
+    aggregate {
+      sum {
+        bear
+        bull
+      }
+    }
+  }
+}
+
+
+query MyQuery {
+  assets_aggregate(where: {id: {_gt: 2}}) {
+     
+    aggregate {
+      sum {
+        bear
+         bull
+      }
+      
+    }
+  }
+  address_aggregate(where: {dex: {_eq: "wedex"}}) {
+    aggregate {
+      sum {
+        bear
+        bull
+      }
+    }
+  }
+}
