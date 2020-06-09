@@ -110,7 +110,7 @@ class Bot {
         });
         job.start();
 
-        const job1 = new CronJob("0 0 8  * * *", function () {
+        const job1 = new CronJob("0 5 8  * * *", function () {
             const d = new Date();
             that.dkey.GetData()
             
